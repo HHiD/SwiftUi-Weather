@@ -39,17 +39,47 @@ struct WeatherForecastView: View {
                 .gesture(
                     magnification
                 )
+                .dismissKeyboardOnTap()
                 
                 List{
                     Section(header:VStack(spacing: 10, content:{
                         HStack {
+                            Text(viewModel.address ?? "").font(.subheadline)
+                            Spacer()
+                        }
+                        HStack(content: {
+                            
+                            VStack(alignment: .leading){
+                                Text("Latitude: ")
+                                TextField("Latitude", text: $viewModel.latitude)
+                                    .keyboardType(.decimalPad)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .frame(width: 100)
+                            }
+                            VStack(alignment: .leading){
+                                Text("Longitude: ")
+                                TextField("Longitude", text: $viewModel.longitude)
+                                    .keyboardType(.decimalPad)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .frame(width: 100)
+                            }
+                            Spacer()
+                            Button {
+                                viewModel.fetchDataForCoordinates()
+                            } label: {
+                                Text("OK")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                                    .padding()
+                            }
+                            .buttonStyle(PhysicalButtonStyle())
+                            .skeleton(Circle(), isLoading: viewModel.isLoading)
+                            
+                        })
+                        HStack {
                             Text("Time").font(.headline)
                             Spacer()
                             Text("Temperature").font(.headline)
-                        }
-                        HStack {
-                            Text(viewModel.address ?? "").font(.subheadline)
-                            Spacer()
                         }
                     }).padding(.vertical, 5))
                     {
@@ -60,10 +90,13 @@ struct WeatherForecastView: View {
                                 Text("\(item.itemTemperature)")
                             }
                             .skeleton(isLoading: viewModel.isLoading)
+                            .dismissKeyboardOnTap()
                         }
                     }
                     
-                }.listStyle(PlainListStyle())
+                }
+                .listStyle(PlainListStyle())
+                .scrollDismissesKeyboard(.immediately)
             }
             .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
                 Alert(
@@ -78,7 +111,8 @@ struct WeatherForecastView: View {
             }
             
             
-        }.detectOrientation($orientation)
+        }
+        .detectOrientation($orientation)
         
     }
     

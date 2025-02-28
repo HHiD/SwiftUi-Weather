@@ -26,7 +26,7 @@ struct WeatherForecastApp: App {
         }
         .backgroundTask(.appRefresh(AppBackgroundTask.identifier)) {
             print("[backgroundTask]", "\(AppBackgroundTask.identifier)", "invoked")
-            //Not completly finished yet, I think with background refresh might need a data catch system, too much to do.
+            //Not completly finished yet, Something Wrong with my iOS device i can not test it.
         }
         
     }

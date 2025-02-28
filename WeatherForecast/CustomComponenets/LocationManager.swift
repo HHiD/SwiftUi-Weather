@@ -100,6 +100,7 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             completionHandler?(location.coordinate, nil)
+            manager.stopUpdatingLocation()
         }
     }
     

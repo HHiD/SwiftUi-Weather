@@ -20,11 +20,12 @@ class AppBackgroundTask {
         request.earliestBeginDate = .now.addingTimeInterval(30)
         do {
             try BGTaskScheduler.shared.submit(request)
+            print("=====Background Task Scheduled =====")
         } catch let error {
             print("=====Background Task Error: \(error)=====")
         }
     }
-    
+
     func handleBackgroundTask(_ task: BGTask) {
         print("Background refresh handle")
         print("=====Background refresh handle=====")
